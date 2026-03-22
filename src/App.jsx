@@ -413,17 +413,25 @@ Rules:
 - Be brutally specific — avoid generic advice. Every number must be defensible.
 - Tool categories: CRM, sales automation, outreach, workflow automation, project management, AI writing, AI assistants, customer support, marketing & email, design, analytics, meeting intelligence, HR, finance, SEO, security`;
 
-  // NOTE FOR LIVE DEPLOYMENT: Replace this block with Gemini free tier
-  // (aistudio.google.com → Get API Key → 1,500 free requests/day)
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 2000,
-      messages: [{ role: "user", content: prompt }],
-    }),
-  });
+
+  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${process.env.REACT_APP_OPENROUTER_API_KEY}`,
+    "HTTP-Referer": "https://stackorbit.vercel.app",
+  },
+  body: JSON.stringify({
+    model: "mistralai/mistral-7b-instruct:free",
+    messages: [{ role: "user", content: prompt }],
+    max_tokens: 2000,
+  }),
+});
+const data = await res.json();
+const raw = data.choices?.[0]?.message?.content || "";
+if (!raw) throw new Error("Empty response");
+return JSON.parse(raw.replace(/```json|```/g, "").trim());
+});
   const data = await res.json();
   const raw = data.content?.map(b => b.text || "").join("") || "";
   if (!raw) throw new Error("Empty response");
