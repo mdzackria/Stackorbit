@@ -364,7 +364,7 @@ Rules:
 - matchScore 0-100, priority 1 = implement first
 - Be brutally specific`;
 
-  const GEMINI_KEY = (typeof process !== "undefined" && process.env && process.env.NEXT_PUBLIC_GEMINI_API_KEY) || "";
+  const GEMINI_KEY = "AIzaSyC6ZvTuqIjhbmYvKJhEAhFxmtD3orYsF9I";
 
   const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`, {
     method: "POST",
