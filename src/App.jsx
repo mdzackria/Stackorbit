@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 
 // ─── Data ──────────────────────────────────────────────────────────────────
@@ -365,26 +364,19 @@ Rules:
 - matchScore 0-100, priority 1 = implement first
 - Be brutally specific`;
 
-  const OPENROUTER_KEY = (typeof window !== "undefined" && window.__OPENROUTER_KEY__)
-    || (typeof process !== "undefined" && process.env && (process.env.REACT_APP_OPENROUTER_API_KEY || process.env.NEXT_PUBLIC_OPENROUTER_API_KEY))
-    || "";
+  const GEMINI_KEY = (typeof process !== "undefined" && process.env && process.env.NEXT_PUBLIC_GEMINI_API_KEY) || "";
 
-  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${OPENROUTER_KEY}`,
-      "HTTP-Referer": "https://stackorbit.vercel.app",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "mistralai/mistral-7b-instruct:free",
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 2000,
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { maxOutputTokens: 2000, temperature: 0.7 },
     }),
   });
 
   const data = await res.json();
-  const raw = data.choices?.[0]?.message?.content || "";
+  const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
   if (!raw) throw new Error("Empty response");
   return JSON.parse(raw.replace(/```json|```/g, "").trim());
 }
