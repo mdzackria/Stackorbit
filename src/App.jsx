@@ -1,8 +1,8 @@
+
 import { useState, useEffect, useRef } from "react";
 
 // ─── Data ──────────────────────────────────────────────────────────────────
 const AFFILIATE_LINKS = {
-  // CRM & Sales
   "HubSpot":          "https://hubspot.com/?ref=YOUR_ID",
   "Pipedrive":        "https://pipedrive.com/?ref=YOUR_ID",
   "Salesforce":       "https://salesforce.com/?ref=YOUR_ID",
@@ -11,67 +11,54 @@ const AFFILIATE_LINKS = {
   "Clay":             "https://clay.com/?ref=YOUR_ID",
   "Instantly":        "https://instantly.ai/?ref=YOUR_ID",
   "Lemlist":          "https://lemlist.com/?ref=YOUR_ID",
-  // Automation & Workflows
   "Zapier":           "https://zapier.com/?ref=YOUR_ID",
   "Make":             "https://make.com/?ref=YOUR_ID",
   "n8n":              "https://n8n.io/?ref=YOUR_ID",
   "Activepieces":     "https://activepieces.com/?ref=YOUR_ID",
-  // Project & Team Management
   "Monday.com":       "https://monday.com/?ref=YOUR_ID",
   "ClickUp":          "https://clickup.com/?ref=YOUR_ID",
   "Asana":            "https://asana.com/?ref=YOUR_ID",
   "Notion":           "https://notion.so/?ref=YOUR_ID",
   "Linear":           "https://linear.app/?ref=YOUR_ID",
-  // AI Writing & Content
   "Jasper":           "https://jasper.ai/?ref=YOUR_ID",
   "Copy.ai":          "https://copy.ai/?ref=YOUR_ID",
   "Writesonic":       "https://writesonic.com/?ref=YOUR_ID",
   "Rytr":             "https://rytr.me/?ref=YOUR_ID",
   "Hypotenuse":       "https://hypotenuse.ai/?ref=YOUR_ID",
-  // AI Assistants & LLMs
   "ChatGPT":          "https://openai.com/?ref=YOUR_ID",
   "Claude":           "https://claude.ai/?ref=YOUR_ID",
   "Gemini":           "https://gemini.google.com/?ref=YOUR_ID",
   "Perplexity":       "https://perplexity.ai/?ref=YOUR_ID",
-  // Customer Support
   "Intercom":         "https://intercom.com/?ref=YOUR_ID",
   "Zendesk":          "https://zendesk.com/?ref=YOUR_ID",
   "Freshdesk":        "https://freshdesk.com/?ref=YOUR_ID",
   "Tidio":            "https://tidio.com/?ref=YOUR_ID",
   "Crisp":            "https://crisp.chat/?ref=YOUR_ID",
-  // Marketing & Email
   "ActiveCampaign":   "https://activecampaign.com/?ref=YOUR_ID",
   "Mailchimp":        "https://mailchimp.com/?ref=YOUR_ID",
   "Klaviyo":          "https://klaviyo.com/?ref=YOUR_ID",
   "Brevo":            "https://brevo.com/?ref=YOUR_ID",
   "Beehiiv":          "https://beehiiv.com/?ref=YOUR_ID",
-  // Design & Creative
   "Canva":            "https://canva.com/?ref=YOUR_ID",
   "Midjourney":       "https://midjourney.com/?ref=YOUR_ID",
   "Adobe Firefly":    "https://firefly.adobe.com/?ref=YOUR_ID",
   "Runway":           "https://runwayml.com/?ref=YOUR_ID",
-  // Data & Analytics
   "Airtable":         "https://airtable.com/?ref=YOUR_ID",
   "Rows":             "https://rows.com/?ref=YOUR_ID",
   "Metabase":         "https://metabase.com/?ref=YOUR_ID",
-  // Meetings & Productivity
   "Otter.ai":         "https://otter.ai/?ref=YOUR_ID",
   "Fireflies":        "https://fireflies.ai/?ref=YOUR_ID",
   "Loom":             "https://loom.com/?ref=YOUR_ID",
   "Grain":            "https://grain.com/?ref=YOUR_ID",
   "Reclaim":          "https://reclaim.ai/?ref=YOUR_ID",
-  // HR & Recruiting
   "Rippling":         "https://rippling.com/?ref=YOUR_ID",
   "Greenhouse":       "https://greenhouse.com/?ref=YOUR_ID",
   "Manatal":          "https://manatal.com/?ref=YOUR_ID",
-  // Finance & Accounting
   "Xero":             "https://xero.com/?ref=YOUR_ID",
   "QuickBooks":       "https://quickbooks.intuit.com/?ref=YOUR_ID",
   "Brex":             "https://brex.com/?ref=YOUR_ID",
-  // Security & Compliance
   "1Password":        "https://1password.com/?ref=YOUR_ID",
   "Vanta":            "https://vanta.com/?ref=YOUR_ID",
-  // SEO & Growth
   "Semrush":          "https://semrush.com/?ref=YOUR_ID",
   "Ahrefs":           "https://ahrefs.com/?ref=YOUR_ID",
   "Surfer SEO":       "https://surferseo.com/?ref=YOUR_ID",
@@ -84,7 +71,6 @@ const getLink = (name) => {
 };
 
 const CURRENCIES = [
-  // Americas
   { code: "USD", symbol: "$",    label: "🇺🇸 USD — US Dollar" },
   { code: "CAD", symbol: "C$",   label: "🇨🇦 CAD — Canadian Dollar" },
   { code: "MXN", symbol: "MX$",  label: "🇲🇽 MXN — Mexican Peso" },
@@ -93,7 +79,6 @@ const CURRENCIES = [
   { code: "COP", symbol: "COL$", label: "🇨🇴 COP — Colombian Peso" },
   { code: "CLP", symbol: "CL$",  label: "🇨🇱 CLP — Chilean Peso" },
   { code: "PEN", symbol: "S/",   label: "🇵🇪 PEN — Peruvian Sol" },
-  // Europe
   { code: "EUR", symbol: "€",    label: "🇪🇺 EUR — Euro" },
   { code: "GBP", symbol: "£",    label: "🇬🇧 GBP — British Pound" },
   { code: "CHF", symbol: "Fr",   label: "🇨🇭 CHF — Swiss Franc" },
@@ -106,7 +91,6 @@ const CURRENCIES = [
   { code: "RON", symbol: "lei",  label: "🇷🇴 RON — Romanian Leu" },
   { code: "TRY", symbol: "₺",    label: "🇹🇷 TRY — Turkish Lira" },
   { code: "UAH", symbol: "₴",    label: "🇺🇦 UAH — Ukrainian Hryvnia" },
-  // Middle East & Africa
   { code: "AED", symbol: "د.إ",  label: "🇦🇪 AED — UAE Dirham" },
   { code: "SAR", symbol: "﷼",    label: "🇸🇦 SAR — Saudi Riyal" },
   { code: "QAR", symbol: "ر.ق",  label: "🇶🇦 QAR — Qatari Riyal" },
@@ -121,7 +105,6 @@ const CURRENCIES = [
   { code: "MAD", symbol: "د.م.", label: "🇲🇦 MAD — Moroccan Dirham" },
   { code: "TZS", symbol: "TSh",  label: "🇹🇿 TZS — Tanzanian Shilling" },
   { code: "ETB", symbol: "Br",   label: "🇪🇹 ETB — Ethiopian Birr" },
-  // Asia & Pacific
   { code: "INR", symbol: "₹",    label: "🇮🇳 INR — Indian Rupee" },
   { code: "PKR", symbol: "₨",    label: "🇵🇰 PKR — Pakistani Rupee" },
   { code: "BDT", symbol: "৳",    label: "🇧🇩 BDT — Bangladeshi Taka" },
@@ -140,7 +123,6 @@ const CURRENCIES = [
   { code: "VND", symbol: "₫",    label: "🇻🇳 VND — Vietnamese Dong" },
   { code: "MMK", symbol: "K",    label: "🇲🇲 MMK — Myanmar Kyat" },
   { code: "KHR", symbol: "៛",    label: "🇰🇭 KHR — Cambodian Riel" },
-  // Oceania
   { code: "AUD", symbol: "A$",   label: "🇦🇺 AUD — Australian Dollar" },
   { code: "NZD", symbol: "NZ$",  label: "🇳🇿 NZD — New Zealand Dollar" },
 ];
@@ -189,7 +171,6 @@ const PAIN_OPTIONS = [
   { value: "Product Development & Delivery — Development cycles are slow and misaligned with market feedback.", label: "Product Development & Delivery" },
   { value: "Knowledge Management — Critical information is siloed and difficult to retrieve across the team.", label: "Knowledge Management" },
 ];
-
 
 const FUNDING_STAGES = [
   { value: "", label: "Select funding stage..." },
@@ -272,7 +253,6 @@ function ToolPicker({ selected, onChange }) {
 
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
-      {/* Search */}
       <div style={{ position:"relative" }}>
         <input
           style={{ background:"#0e0e0e", border:"1px solid #1e1e1e", borderRadius:10, padding:"12px 16px 12px 40px", fontSize:14, color:"#f0f0f0", fontFamily:M, width:"100%", boxSizing:"border-box", transition:"border-color 0.2s" }}
@@ -284,22 +264,21 @@ function ToolPicker({ selected, onChange }) {
         {search && <button onClick={() => setSearch("")} style={{ position:"absolute", right:12, top:"50%", transform:"translateY(-50%)", background:"transparent", border:"none", color:"#555", cursor:"pointer", fontSize:16, padding:0 }}>×</button>}
       </div>
 
-      {/* Category Pills */}
-      <div style={{ display:"flex", gap:6, overflowX:"auto", paddingBottom:4, scrollbarWidth:"none" }}>
-        {cats.map(cat => (
-          <button key={cat} onClick={() => setActiveCategory(cat)}
-            style={{ flexShrink:0, padding:"6px 12px", borderRadius:100, border:"1px solid", fontSize:11, cursor:"pointer", fontFamily:M, letterSpacing:0.5, transition:"all 0.15s", whiteSpace:"nowrap",
-              background: activeCategory===cat ? "#00E5A0" : "transparent",
-              borderColor: activeCategory===cat ? "#00E5A0" : "#222",
-              color: activeCategory===cat ? "#000" : "#888",
-              fontWeight: activeCategory===cat ? 500 : 400,
-            }}>
-            {cat === "All" ? `All (${Object.values(TOOL_CATALOG).flat().length})` : cat}
-          </button>
-        ))}
+      <div style={{ position:"relative" }}>
+        <select
+          value={activeCategory}
+          onChange={e => setActiveCategory(e.target.value)}
+          style={{ background:"#0e0e0e", border:"1px solid #1e1e1e", borderRadius:10, padding:"12px 40px 12px 16px", fontSize:13, color:"#f0f0f0", fontFamily:M, width:"100%", appearance:"none", cursor:"pointer", transition:"border-color 0.2s" }}
+        >
+          {cats.map(cat => (
+            <option key={cat} value={cat} style={{ background:"#111", color:"#f0f0f0" }}>
+              {cat === "All" ? `All Categories (${Object.values(TOOL_CATALOG).flat().length} tools)` : `${cat} (${TOOL_CATALOG[cat]?.length || 0})`}
+            </option>
+          ))}
+        </select>
+        <div style={{ position:"absolute", right:14, top:"50%", transform:"translateY(-50%)", pointerEvents:"none", color:"#00E5A0", fontSize:12 }}>▾</div>
       </div>
 
-      {/* Tool Grid */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(130px, 1fr))", gap:6, maxHeight:280, overflowY:"auto", padding:"4px 2px", scrollbarWidth:"thin", scrollbarColor:"#222 transparent" }}>
         {visible.length === 0 ? (
           <div style={{ gridColumn:"1/-1", padding:"32px", textAlign:"center", color:"#555", fontSize:13 }}>No tools found for "{search}"</div>
@@ -319,7 +298,6 @@ function ToolPicker({ selected, onChange }) {
         })}
       </div>
 
-      {/* Selected Summary */}
       {selectedArr.length > 0 && (
         <div style={{ background:"#0a1a0f", border:"1px solid #0e2318", borderRadius:10, padding:"12px 14px", display:"flex", flexWrap:"wrap", gap:6, alignItems:"center" }}>
           <span style={{ fontSize:10, color:"#00E5A0", letterSpacing:2, marginRight:4 }}>{selectedArr.length} SELECTED:</span>
@@ -355,85 +333,58 @@ Founder Profile:
 
 CRITICAL CURRENCY RULE: Every single monetary value in your response MUST be in ${code} (${sym}). Convert from USD using real exchange rates. INR example: $49 = ₹4,100. Be precise.
 
-Return exactly this JSON structure — fill every field with sharp, specific, data-driven analysis:
+Return exactly this JSON structure:
 {
   "summary": "2 sharp sentences summarising their exact situation and single biggest opportunity right now",
-  "stageContext": "1 sentence describing what a business at this revenue/funding stage typically struggles with and what matters most at this stage",
+  "stageContext": "1 sentence describing what a business at this revenue/funding stage typically struggles with",
   "wastedSpend": "${sym}X/mo",
   "potentialROI": "+${sym}X/mo",
-  "runway_impact": "If they are funded: estimate how many extra months of runway proper AI tooling could add by reducing headcount needs. If revenue-based: estimate % reduction in operating costs.",
+  "runway_impact": "estimate % reduction in operating costs or extra months of runway",
   "cashBurners": [
-    {
-      "area": "Name of business function (e.g. Manual Sales Outreach)",
-      "estimatedLoss": "${sym}X/mo",
-      "reason": "Specific explanation of how this area is bleeding money or time at their stage",
-      "urgency": "HIGH / MEDIUM / LOW"
-    }
+    { "area": "Business function", "estimatedLoss": "${sym}X/mo", "reason": "Specific explanation", "urgency": "HIGH" }
   ],
   "recommendations": [
-    {
-      "name": "Tool Name",
-      "category": "Category",
-      "price": "${sym}X/mo",
-      "action": "BUY",
-      "roi": "+${sym}X/mo",
-      "roiDetail": "Specific, quantified reason — e.g. saves 12 hrs/week of manual outreach = ${sym}X in team time recovered",
-      "paybackPeriod": "X weeks",
-      "matchScore": 95,
-      "priority": 1
-    }
+    { "name": "Tool Name", "category": "Category", "price": "${sym}X/mo", "action": "BUY", "roi": "+${sym}X/mo", "roiDetail": "Specific quantified reason", "paybackPeriod": "X weeks", "matchScore": 95, "priority": 1 }
   ],
   "cancelTools": [
-    {
-      "name": "Tool Name",
-      "category": "Category",
-      "price": "${sym}X/mo",
-      "action": "CANCEL",
-      "roi": "-${sym}X/mo",
-      "roiDetail": "Exact reason why this tool is waste at their stage — what overlaps or better alternative exists",
-      "matchScore": 10,
-      "priority": 99
-    }
+    { "name": "Tool Name", "category": "Category", "price": "${sym}X/mo", "action": "CANCEL", "roi": "-${sym}X/mo", "roiDetail": "Exact reason why this tool is waste", "matchScore": 10, "priority": 99 }
   ],
   "implementationRoadmap": [
-    { "week": "Week 1–2", "action": "Specific first action to take", "outcome": "What this unlocks" },
-    { "week": "Week 3–4", "action": "Second action", "outcome": "What this unlocks" },
+    { "week": "Week 1-2", "action": "Specific first action", "outcome": "What this unlocks" },
+    { "week": "Week 3-4", "action": "Second action", "outcome": "What this unlocks" },
     { "week": "Month 2", "action": "Third action", "outcome": "What this unlocks" },
     { "week": "Month 3", "action": "Final action", "outcome": "Full stack running" }
   ],
-  "insight": "One razor-sharp expert insight that most founders at this stage never realise — specific to their challenge and market"
+  "insight": "One razor-sharp expert insight specific to their challenge"
 }
 
 Rules:
 - Exactly 4 BUY recommendations, up to 2 CANCEL (only tools they actually mentioned)
-- cashBurners: identify exactly 3 areas bleeding money based on their challenge and stage
-- All amounts in ${code}, converted accurately from USD
-- matchScore 0–100, priority 1 = implement first
-- paybackPeriod: realistic estimate of how fast the tool pays for itself
-- Be brutally specific — avoid generic advice. Every number must be defensible.
-- Tool categories: CRM, sales automation, outreach, workflow automation, project management, AI writing, AI assistants, customer support, marketing & email, design, analytics, meeting intelligence, HR, finance, SEO, security`;
+- cashBurners: exactly 3 areas
+- All amounts in ${code}
+- matchScore 0-100, priority 1 = implement first
+- Be brutally specific`;
 
+  const OPENROUTER_KEY = (typeof window !== "undefined" && window.__OPENROUTER_KEY__)
+    || (typeof process !== "undefined" && process.env && (process.env.REACT_APP_OPENROUTER_API_KEY || process.env.NEXT_PUBLIC_OPENROUTER_API_KEY))
+    || "";
 
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${process.env.REACT_APP_OPENROUTER_API_KEY}`,
-    "HTTP-Referer": "https://stackorbit.vercel.app",
-  },
-  body: JSON.stringify({
-    model: "mistralai/mistral-7b-instruct:free",
-    messages: [{ role: "user", content: prompt }],
-    max_tokens: 2000,
-  }),
-});
-const data = await res.json();
-const raw = data.choices?.[0]?.message?.content || "";
-if (!raw) throw new Error("Empty response");
-return JSON.parse(raw.replace(/```json|```/g, "").trim());
-});
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${OPENROUTER_KEY}`,
+      "HTTP-Referer": "https://stackorbit.vercel.app",
+    },
+    body: JSON.stringify({
+      model: "mistralai/mistral-7b-instruct:free",
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 2000,
+    }),
+  });
+
   const data = await res.json();
-  const raw = data.content?.map(b => b.text || "").join("") || "";
+  const raw = data.choices?.[0]?.message?.content || "";
   if (!raw) throw new Error("Empty response");
   return JSON.parse(raw.replace(/```json|```/g, "").trim());
 }
@@ -454,7 +405,6 @@ function generatePDF(result, user, currency) {
   const addPage = () => { doc.addPage(); y = M; };
   const check = (h = 20) => { if (y + h > 270) addPage(); };
 
-  // ── Header bar
   doc.setFillColor(...accent);
   doc.rect(0, 0, W, 18, "F");
   doc.setTextColor(0, 0, 0);
@@ -464,7 +414,6 @@ function generatePDF(result, user, currency) {
   doc.text("AI Stack Intelligence Report", W - M, 12, { align:"right" });
   y = 26;
 
-  // ── Title block
   doc.setTextColor(...dark);
   doc.setFontSize(9); doc.setFont("helvetica","bold");
   doc.setTextColor(...accent);
@@ -476,11 +425,9 @@ function generatePDF(result, user, currency) {
   doc.setTextColor(...mid);
   doc.text(`Sent to ${user?.email}  ·  Currency: ${currency.symbol} ${currency.code}  ·  ${new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})}`, M, y); y += 10;
 
-  // ── Divider
   doc.setDrawColor(30,30,30); doc.setLineWidth(0.3);
   doc.line(M, y, W - M, y); y += 8;
 
-  // ── Stage context
   if (result.stageContext) {
     doc.setFontSize(8); doc.setFont("helvetica","bold");
     doc.setTextColor(...accent);
@@ -488,13 +435,11 @@ function generatePDF(result, user, currency) {
     doc.text(sc, M, y); y += sc.length * 4 + 4;
   }
 
-  // ── Summary
   doc.setFontSize(10); doc.setFont("helvetica","normal");
   doc.setTextColor(...dark);
   const sumLines = doc.splitTextToSize(result.summary || "", CW);
   doc.text(sumLines, M, y); y += sumLines.length * 5 + 6;
 
-  // ── 3 Stat Boxes
   check(24);
   const boxes = [
     { label:"POTENTIAL MONTHLY ROI", val: result.potentialROI, color: accent },
@@ -513,11 +458,10 @@ function generatePDF(result, user, currency) {
   });
   y += 28;
 
-  // ── Cash Burners
   if (result.cashBurners?.length > 0) {
     check(12);
     doc.setFontSize(8); doc.setFont("helvetica","bold"); doc.setTextColor(...red);
-    doc.text("🔥  WHERE YOUR CASH IS BURNING", M, y); y += 7;
+    doc.text("WHERE YOUR CASH IS BURNING", M, y); y += 7;
     result.cashBurners.forEach(b => {
       check(18);
       doc.setFillColor(20, 10, 10); doc.setDrawColor(60,20,20);
@@ -537,7 +481,6 @@ function generatePDF(result, user, currency) {
     y += 4;
   }
 
-  // ── Expert Insight
   check(20);
   doc.setFillColor(9,15,12); doc.setDrawColor(14,35,24);
   const insightLines = doc.splitTextToSize("Expert insight: " + (result.insight || ""), CW - 8);
@@ -545,7 +488,6 @@ function generatePDF(result, user, currency) {
   doc.setFontSize(9); doc.setFont("helvetica","normal"); doc.setTextColor(106,170,133);
   doc.text(insightLines, M + 4, y + 7); y += insightLines.length * 5 + 16;
 
-  // ── Recommendations
   check(12);
   doc.setFontSize(8); doc.setFont("helvetica","bold"); doc.setTextColor(...accent);
   doc.text("RECOMMENDED AI STACK  ·  IN PRIORITY ORDER", M, y); y += 8;
@@ -558,7 +500,6 @@ function generatePDF(result, user, currency) {
     doc.setFillColor(13,13,13); doc.setDrawColor(24,24,24);
     doc.roundedRect(M, y, CW, 28, 2, 2, "FD");
     doc.setFillColor(...col); doc.rect(M, y, 2, 28, "F");
-
     doc.setFontSize(11); doc.setFont("helvetica","bold"); doc.setTextColor(...light);
     doc.text(tool.name, M + 6, y + 8);
     doc.setFontSize(7); doc.setFont("helvetica","normal"); doc.setTextColor(...mid);
@@ -566,7 +507,6 @@ function generatePDF(result, user, currency) {
     const detail = doc.splitTextToSize(tool.roiDetail || "", CW - 60);
     doc.text(detail[0] || "", M + 6, y + 19);
     if (detail[1]) doc.text(detail[1], M + 6, y + 23);
-
     doc.setFontSize(8); doc.setFont("helvetica","bold");
     doc.setTextColor(...col);
     doc.text(tool.action, W - M - 2, y + 7, { align:"right" });
@@ -577,11 +517,10 @@ function generatePDF(result, user, currency) {
     y += 32;
   });
 
-  // ── Roadmap
   if (result.implementationRoadmap?.length > 0) {
     check(16);
     doc.setFontSize(8); doc.setFont("helvetica","bold"); doc.setTextColor(...accent);
-    doc.text("📍  IMPLEMENTATION ROADMAP", M, y); y += 8;
+    doc.text("IMPLEMENTATION ROADMAP", M, y); y += 8;
     result.implementationRoadmap.forEach((r, i) => {
       check(16);
       doc.setFontSize(8); doc.setFont("helvetica","bold"); doc.setTextColor(...accent);
@@ -589,7 +528,7 @@ function generatePDF(result, user, currency) {
       doc.setFont("helvetica","normal"); doc.setTextColor(...light);
       doc.text(r.action, M + 26, y);
       doc.setTextColor(...mid); doc.setFontSize(7);
-      doc.text("→ " + r.outcome, M + 26, y + 5);
+      doc.text("-> " + r.outcome, M + 26, y + 5);
       if (i < result.implementationRoadmap.length - 1) {
         doc.setDrawColor(22,22,22); doc.line(M, y + 9, W - M, y + 9);
       }
@@ -597,12 +536,11 @@ function generatePDF(result, user, currency) {
     });
   }
 
-  // ── Footer
   const pages = doc.internal.getNumberOfPages();
   for (let p = 1; p <= pages; p++) {
     doc.setPage(p);
     doc.setFontSize(7); doc.setFont("helvetica","normal"); doc.setTextColor(...mid);
-    doc.text(`◈ StackOrbit  ·  AI Stack Intelligence  ·  stackorbit.io  ·  Page ${p} of ${pages}`, W/2, 290, { align:"center" });
+    doc.text(`StackOrbit  ·  AI Stack Intelligence  ·  stackorbit.io  ·  Page ${p} of ${pages}`, W/2, 290, { align:"center" });
   }
 
   return doc;
@@ -614,12 +552,9 @@ function downloadPDF(result, user, currency) {
 }
 
 function emailReport(result, user, currency) {
-  const doc = generatePDF(result, user, currency);
-  const pdfBase64 = doc.output("datauristring");
-  // Opens mail client with report attached as base64 data URI
   const subject = encodeURIComponent("Your StackOrbit AI Stack Report");
   const body = encodeURIComponent(
-    `Hi ${user?.name},\n\nYour personalised AI Stack Report from StackOrbit is attached.\n\nKey findings:\n• Potential Monthly ROI: ${result.potentialROI}\n• Current Wasted Spend: ${result.wastedSpend}\n\nTop recommendation: ${result.recommendations?.[0]?.name} — ${result.recommendations?.[0]?.roiDetail}\n\nExpert insight: ${result.insight}\n\n— StackOrbit AI Stack Intelligence\nstackorbit.io`
+    `Hi ${user?.name},\n\nYour personalised AI Stack Report from StackOrbit is ready.\n\nKey findings:\n- Potential Monthly ROI: ${result.potentialROI}\n- Current Wasted Spend: ${result.wastedSpend}\n\nTop recommendation: ${result.recommendations?.[0]?.name} — ${result.recommendations?.[0]?.roiDetail}\n\nExpert insight: ${result.insight}\n\n— StackOrbit AI Stack Intelligence\nstackorbit.io`
   );
   window.open(`mailto:${user?.email}?subject=${subject}&body=${body}`);
 }
@@ -655,8 +590,6 @@ function Landing({ onStart }) {
   return (
     <div style={{ background:"#060606", fontFamily:M, color:"#fff", minHeight:"100vh" }}>
       <GS />
-
-      {/* NAV */}
       <nav style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"20px 40px", borderBottom:"1px solid #111", position:"sticky", top:0, background:"#060606", zIndex:100 }}>
         <div style={{ display:"flex", alignItems:"center", gap:10 }}>
           <span style={{ color:"#00E5A0", fontSize:20 }}>◈</span>
@@ -672,7 +605,6 @@ function Landing({ onStart }) {
         </div>
       </nav>
 
-      {/* HERO */}
       <section style={{ maxWidth:900, margin:"0 auto", padding:"100px 40px 80px", textAlign:"center" }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#0a1a0f", border:"1px solid #0e2a18", borderRadius:100, padding:"7px 16px", marginBottom:32 }}>
           <span style={{ width:6, height:6, borderRadius:"50%", background:"#00E5A0", display:"inline-block", animation:"pulse 2s infinite" }} />
@@ -693,7 +625,6 @@ function Landing({ onStart }) {
         </div>
       </section>
 
-      {/* STATS */}
       <section style={{ borderTop:"1px solid #111", borderBottom:"1px solid #111", padding:"40px 40px" }}>
         <div style={{ maxWidth:800, margin:"0 auto", display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:0 }}>
           {STATS.map((s, i) => (
@@ -705,7 +636,6 @@ function Landing({ onStart }) {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
       <section id="how" style={{ maxWidth:800, margin:"0 auto", padding:"100px 40px" }}>
         <p style={{ fontSize:10, color:"#00E5A0", letterSpacing:3, textTransform:"uppercase", margin:"0 0 16px" }}>HOW IT WORKS</p>
         <h2 style={{ fontSize:38, fontFamily:F, fontWeight:"normal", margin:"0 0 56px", color:"#fff" }}>Three steps to your AI stack.</h2>
@@ -722,7 +652,6 @@ function Landing({ onStart }) {
         </div>
       </section>
 
-      {/* USE CASES */}
       <section id="usecases" style={{ background:"#080808", borderTop:"1px solid #111", borderBottom:"1px solid #111", padding:"100px 40px" }}>
         <div style={{ maxWidth:900, margin:"0 auto" }}>
           <p style={{ fontSize:10, color:"#00E5A0", letterSpacing:3, textTransform:"uppercase", margin:"0 0 16px" }}>USE CASES</p>
@@ -739,7 +668,6 @@ function Landing({ onStart }) {
         </div>
       </section>
 
-      {/* REVIEWS */}
       <section id="reviews" style={{ maxWidth:960, margin:"0 auto", padding:"100px 40px" }}>
         <p style={{ fontSize:10, color:"#00E5A0", letterSpacing:3, textTransform:"uppercase", margin:"0 0 16px" }}>FOUNDER REVIEWS</p>
         <h2 style={{ fontSize:38, fontFamily:F, fontWeight:"normal", margin:"0 0 56px", color:"#fff" }}>What founders are saying.</h2>
@@ -759,18 +687,14 @@ function Landing({ onStart }) {
         </div>
       </section>
 
-      {/* CTA BANNER */}
       <section style={{ background:"#0a1a0f", borderTop:"1px solid #0e2318", borderBottom:"1px solid #0e2318", padding:"80px 40px", textAlign:"center" }}>
-        <h2 style={{ fontSize:42, fontFamily:F, fontWeight:"normal", margin:"0 0 16px", color:"#fff" }}>
-          Ready to build your AI stack?
-        </h2>
+        <h2 style={{ fontSize:42, fontFamily:F, fontWeight:"normal", margin:"0 0 16px", color:"#fff" }}>Ready to build your AI stack?</h2>
         <p style={{ fontSize:16, color:"#888", margin:"0 0 40px", fontFamily:F }}>Free. Personalised. Takes 2 minutes.</p>
         <button onClick={onStart} style={{ background:"#00E5A0", color:"#000", border:"none", borderRadius:10, padding:"18px 40px", fontSize:15, fontWeight:500, cursor:"pointer", fontFamily:M, letterSpacing:0.5 }}>
           Get My AI Stack Report →
         </button>
       </section>
 
-      {/* FOOTER */}
       <footer style={{ padding:"32px 40px", display:"flex", justifyContent:"space-between", alignItems:"center", borderTop:"1px solid #0e0e0e" }}>
         <div style={{ display:"flex", alignItems:"center", gap:8 }}>
           <span style={{ color:"#00E5A0" }}>◈</span>
@@ -798,7 +722,7 @@ function EmailGate({ onSubmit }) {
     <div style={{ background:"#0b0b0b", border:"1px solid #1c1c1c", borderRadius:18, padding:"44px 40px", display:"flex", flexDirection:"column", gap:16, maxWidth:420, width:"100%" }}>
       <div style={{ fontSize:26, color:"#00E5A0", textAlign:"center" }}>◈</div>
       <h2 style={{ margin:0, fontSize:28, color:"#fff", fontFamily:F, fontWeight:"normal", textAlign:"center", lineHeight:1.3 }}>Your report is ready.</h2>
-      <p style={{ margin:0, fontSize:14, color:"#888", textAlign:"center", lineHeight:1.65 }}>Enter your details to unlock your personalised AI stack. We'll also send you a copy.</p>
+      <p style={{ margin:0, fontSize:14, color:"#888", textAlign:"center", lineHeight:1.65 }}>Enter your details to unlock your personalised AI stack.</p>
       <div style={{ display:"flex", flexDirection:"column", gap:10, marginTop:6 }}>
         <input ref={ref} style={{ background:"#111", border:"1px solid #1e1e1e", borderRadius:10, padding:"14px 16px", fontSize:15, color:"#f0f0f0", fontFamily:M, width:"100%", transition:"border-color 0.2s" }} placeholder="Your first name" value={name} onChange={e => { setName(e.target.value); setErr(""); }} onKeyDown={e => e.key === "Enter" && submit()} />
         <input style={{ background:"#111", border:"1px solid #1e1e1e", borderRadius:10, padding:"14px 16px", fontSize:15, color:"#f0f0f0", fontFamily:M, width:"100%", transition:"border-color 0.2s" }} placeholder="Work email address" type="email" value={email} onChange={e => { setEmail(e.target.value); setErr(""); }} onKeyDown={e => e.key === "Enter" && submit()} />
@@ -847,12 +771,12 @@ function ToolCard({ tool, locked }) {
 
 // ─── Main App ──────────────────────────────────────────────────────────────
 export default function StackOrbit() {
-  const [phase, setPhase] = useState("landing"); // landing|form|loading|gate|report
-  const [revenueTab, setRevenueTab] = useState(0); // 0=revenue, 1=funding
+  const [phase, setPhase] = useState("landing");
+  const [revenueTab, setRevenueTab] = useState(0);
   const [emailSent, setEmailSent] = useState(false);
   const [step, setStep] = useState(0);
   const [form, setForm] = useState({ revenue:"", team:"", pain:"", budget:"", tools:"" });
-  const [currency, setCurrency] = useState(CURRENCIES[0]); // default USD
+  const [currency, setCurrency] = useState(CURRENCIES[0]);
   const [result, setResult] = useState(null);
   const [user, setUser] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
@@ -893,10 +817,8 @@ export default function StackOrbit() {
 
   const centered = { minHeight:"100vh", background:"#060606", display:"flex", alignItems:"center", justifyContent:"center", padding:"32px 20px", fontFamily:M };
 
-  // LANDING
   if (phase === "landing") return <Landing onStart={() => setPhase("form")} />;
 
-  // LOADING
   if (phase === "loading") return (
     <div style={centered}><GS />
       <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:20 }}>
@@ -907,12 +829,10 @@ export default function StackOrbit() {
     </div>
   );
 
-  // EMAIL GATE
   if (phase === "gate") return (
     <div style={centered}><GS /><EmailGate onSubmit={u => { setUser(u); setPhase("report"); }} /></div>
   );
 
-  // REPORT
   if (phase === "report" && result) {
     const all = [...(result.recommendations||[]),...(result.cancelTools||[])];
     return (
@@ -921,12 +841,8 @@ export default function StackOrbit() {
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", paddingTop:8, flexWrap:"wrap", gap:10 }}>
             <div style={{ fontSize:15, color:"#00E5A0", letterSpacing:3 }}>◈ StackOrbit</div>
             <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-              <button onClick={() => downloadPDF(result, user, currency)}
-                style={{ background:"#00E5A0", color:"#000", border:"none", borderRadius:8, padding:"9px 16px", fontSize:11, fontWeight:500, cursor:"pointer", fontFamily:M, letterSpacing:0.5, display:"flex", alignItems:"center", gap:6 }}>
-                ⬇ Download PDF
-              </button>
-              <button onClick={() => { setEmailSent(true); emailReport(result, user, currency); }}
-                style={{ background: emailSent ? "#0a1a0f" : "#0e0e0e", color: emailSent ? "#00E5A0" : "#888", border:"1px solid", borderColor: emailSent ? "#0e2318" : "#1a1a1a", borderRadius:8, padding:"9px 16px", fontSize:11, cursor:"pointer", fontFamily:M, letterSpacing:0.5 }}>
+              <button onClick={() => downloadPDF(result, user, currency)} style={{ background:"#00E5A0", color:"#000", border:"none", borderRadius:8, padding:"9px 16px", fontSize:11, fontWeight:500, cursor:"pointer", fontFamily:M, letterSpacing:0.5 }}>⬇ Download PDF</button>
+              <button onClick={() => { setEmailSent(true); emailReport(result, user, currency); }} style={{ background: emailSent ? "#0a1a0f" : "#0e0e0e", color: emailSent ? "#00E5A0" : "#888", border:"1px solid", borderColor: emailSent ? "#0e2318" : "#1a1a1a", borderRadius:8, padding:"9px 16px", fontSize:11, cursor:"pointer", fontFamily:M, letterSpacing:0.5 }}>
                 {emailSent ? "✓ Email Sent" : "✉ Email Report"}
               </button>
               <button style={{ background:"transparent", border:"1px solid #1a1a1a", color:"#555", borderRadius:8, padding:"9px 14px", fontSize:11, cursor:"pointer", fontFamily:M, letterSpacing:1 }} onClick={reset}>← Home</button>
@@ -940,7 +856,7 @@ export default function StackOrbit() {
               <span style={{ background:"#0a1a0f", border:"1px solid #0e2318", borderRadius:100, padding:"3px 10px", fontSize:10, color:"#00E5A0", letterSpacing:1 }}>{currency.symbol} {currency.code}</span>
             </div>
           </div>
-          {/* Summary + Stats */}
+
           <div style={{ background:"#0c0c0c", border:"1px solid #181818", borderRadius:14, padding:"26px 28px", display:"flex", flexDirection:"column", gap:20 }}>
             {result.stageContext && <p style={{ margin:0, fontSize:12, color:"#00E5A0", letterSpacing:1, textTransform:"uppercase", borderBottom:"1px solid #161616", paddingBottom:12 }}>{result.stageContext}</p>}
             <p style={{ margin:0, fontSize:16, color:"#c8c8c8", lineHeight:1.8, fontFamily:F }}>{result.summary}</p>
@@ -959,7 +875,6 @@ export default function StackOrbit() {
             </div>
           </div>
 
-          {/* Cash Burners */}
           {result.cashBurners?.length > 0 && (
             <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
               <p style={{ margin:0, fontSize:10, color:"#FF5C5C", letterSpacing:3 }}>🔥 WHERE YOUR CASH IS BURNING RIGHT NOW</p>
@@ -983,7 +898,6 @@ export default function StackOrbit() {
             </div>
           )}
 
-          {/* Expert Insight */}
           <div style={{ background:"#090f0c", border:"1px solid #0c1f15", borderRadius:10, padding:"18px 22px", display:"flex", gap:12, alignItems:"flex-start" }}>
             <span style={{ fontSize:18, flexShrink:0 }}>💡</span>
             <p style={{ margin:0, fontSize:14, color:"#6aaa85", lineHeight:1.75 }}><strong style={{ color:"#ccc" }}>Expert insight: </strong>{result.insight}</p>
@@ -1010,7 +924,7 @@ export default function StackOrbit() {
               );
             })}
           </div>
-          {/* Implementation Roadmap */}
+
           {result.implementationRoadmap?.length > 0 && (
             <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
               <p style={{ margin:0, fontSize:10, color:"#00E5A0", letterSpacing:3 }}>📍 YOUR IMPLEMENTATION ROADMAP</p>
@@ -1039,7 +953,6 @@ export default function StackOrbit() {
     );
   }
 
-  // FORM
   return (
     <div style={centered}><GS />
       <div style={{ width:"100%", maxWidth:560, display:"flex", flexDirection:"column", gap:40 }}>
@@ -1079,16 +992,16 @@ export default function StackOrbit() {
                   <div style={{ position:"relative", flexShrink:0 }}>
                     <select style={{ background:"#0e0e0e", border:"1px solid #1e1e1e", borderRadius:10, padding:"16px 40px 16px 14px", fontSize:13, color:"#f0f0f0", fontFamily:M, appearance:"none", cursor:"pointer", transition:"border-color 0.2s", height:"100%", minWidth:130 }}
                       value={currency.code} onChange={e => setCurrency(CURRENCIES.find(c => c.code === e.target.value))}>
-                      <optgroup label="── Americas ──" style={{ background:"#111", color:"#666" }}>
+                      <optgroup label="Americas" style={{ background:"#111", color:"#666" }}>
                         {CURRENCIES.filter(c => ["USD","CAD","MXN","BRL","ARS","COP","CLP","PEN"].includes(c.code)).map(c => <option key={c.code} value={c.code} style={{ background:"#111" }}>{c.label}</option>)}
                       </optgroup>
-                      <optgroup label="── Europe ──" style={{ background:"#111", color:"#666" }}>
+                      <optgroup label="Europe" style={{ background:"#111", color:"#666" }}>
                         {CURRENCIES.filter(c => ["EUR","GBP","CHF","SEK","NOK","DKK","PLN","CZK","HUF","RON","TRY","UAH"].includes(c.code)).map(c => <option key={c.code} value={c.code} style={{ background:"#111" }}>{c.label}</option>)}
                       </optgroup>
-                      <optgroup label="── Middle East & Africa ──" style={{ background:"#111", color:"#666" }}>
+                      <optgroup label="Middle East & Africa" style={{ background:"#111", color:"#666" }}>
                         {CURRENCIES.filter(c => ["AED","SAR","QAR","KWD","BHD","ILS","EGP","NGN","KES","GHS","ZAR","MAD","TZS","ETB"].includes(c.code)).map(c => <option key={c.code} value={c.code} style={{ background:"#111" }}>{c.label}</option>)}
                       </optgroup>
-                      <optgroup label="── Asia & Pacific ──" style={{ background:"#111", color:"#666" }}>
+                      <optgroup label="Asia & Pacific" style={{ background:"#111", color:"#666" }}>
                         {CURRENCIES.filter(c => ["INR","PKR","BDT","LKR","NPR","JPY","CNY","KRW","HKD","TWD","SGD","MYR","THB","IDR","PHP","VND","MMK","KHR","AUD","NZD"].includes(c.code)).map(c => <option key={c.code} value={c.code} style={{ background:"#111" }}>{c.label}</option>)}
                       </optgroup>
                     </select>
@@ -1116,7 +1029,6 @@ export default function StackOrbit() {
               </select>
               <div style={{ position:"absolute", right:18, top:"50%", transform:"translateY(-50%)", pointerEvents:"none", color:"#00E5A0", fontSize:12 }}>▾</div>
             </div>
-
           ) : field.type === "tool_picker" ? (
             <ToolPicker selected={val} onChange={v => setForm({...form, tools: v})} />
           ) : field.type === "textarea" ? (
@@ -1132,7 +1044,7 @@ export default function StackOrbit() {
             </button>
           </div>
         </div>
-        <p style={{ margin:0, fontSize:11, color:"#666", textAlign:"center", letterSpacing:1 }}>Free · No account required · 2 minutes · Powered by Claude AI</p>
+        <p style={{ margin:0, fontSize:11, color:"#666", textAlign:"center", letterSpacing:1 }}>Free · No account required · 2 minutes · Powered by AI</p>
       </div>
     </div>
   );
